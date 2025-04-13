@@ -2,9 +2,14 @@ import json
 import pandas as pd
 import math
 
+import networkx as nx
+import matplotlib.pyplot as plt
+import gcol
+
 # Load your JSON file
-with open('LACountyFireHazardLevel.json', "r") as file:
+with open(r"\Users\sirer\OneDrive\Desktop\cdProjects\Quantum\yquantum-2025-travelers-capgemini\LACountyFireHazardLevel.json") as file:
     full_data = json.load(file)
+print("success")
 
 # Step 1: Process the data to get centroids
 centroids = {}
@@ -80,8 +85,18 @@ for id1 in distance_matrix["Very High"].keys():
             if(id2 not in veryHighGraph[id1].keys()):
                 veryHighGraph[id1][id2] = 1
 
-"""
+
 print("moderate neighbors:", len(moderateGraph.keys()))
 print("high neighbors:", len(highGraph.keys()))
 print("very high neighbors:", len(veryHighGraph.keys()))
-"""
+
+G = nx.Graph(moderateGraph)
+c = gcol.node_coloring(G, opt_alg=1)
+
+print("Here is a node coloring of graph G:", c)
+nx.draw_networkx(G,
+                 pos=nx.spring_layout(G, seed=3),
+                 node_color=gcol.get_node_colors(G, c, gcol.colorful),
+                 with_labels=False,
+                 node_size=80)
+plt.show()
