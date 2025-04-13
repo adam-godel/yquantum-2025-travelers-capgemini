@@ -16,6 +16,7 @@ graph = {
 
 G = nx.Graph(graph)
 c = gcol.node_coloring(G, opt_alg=1)
+
 print("Here is a node coloring of graph G:", c)
 nx.draw_networkx(G,
                  pos=nx.spring_layout(G, seed=3),
